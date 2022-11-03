@@ -42,30 +42,17 @@ describe('tangocard-provider', () => {
   })
 
 
-  /*
-  test('board-basic', async () => {
+  // TODO: make this work
+  test('site-basic', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/tangocard/board").list$()
+    // does this:   const sites = await webflow.sites();
+    const list = await seneca.entity("provider/webflow/site").list$()
     expect(list.length > 0).toBeTruthy()
 
-    const board0 = await seneca.entity("provider/tangocard/board")
-      .load$(Config.board0.id)
-    expect(board0.name).toContain('Welcome Board')
-
-    board0.desc = 'DESC:' + Math.random()
-    let board0r = await board0.save$()
-    expect(board0r.id).toEqual(board0.id)
-    expect(board0r.desc).toEqual(board0.desc)
-
-    const board0u = await seneca.entity("provider/tangocard/board")
-      .load$(Config.board0.id)
-    expect(board0u.name).toContain('Welcome Board')
-    expect(board0u.desc).toEqual(board0r.desc)
-
   })
-  */
+
 })
 
 
@@ -78,20 +65,14 @@ async function makeSeneca() {
       // debug: true,
       file: [__dirname + '/local-env.js;?'],
       var: {
-        $TANGOCARD_KEY: String,
-        $TANGOCARD_NAME: String,
-        $TANGOCARD_CUSTID: String,
-        $TANGOCARD_ACCID: String,
+        $WEBFLOW_TOKEN: String,
       }
     })
     .use('provider', {
       provider: {
         tangocard: {
           keys: {
-            key: { value: '$TANGOCARD_KEY' },
-            name: { value: '$TANGOCARD_NAME' },
-            cust: { value: '$TANGOCARD_CUSTID' },
-            acc: { value: '$TANGOCARD_ACCID' },
+            token: { value: '$WEBFLOW_TOKEN' },
           }
         }
       }

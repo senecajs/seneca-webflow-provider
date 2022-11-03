@@ -104,19 +104,22 @@ function TangocardProvider(this: any, options: TangocardProviderOptions) {
     provider: {
       name: 'tangocard'
     },
+
+    // webflow example
+    // seneca.entity("provider/webflow/site").list$()
     entity: {
-      customer: {
+      site: {
         cmd: {
           list: {
             action: async function(this: any, entize: any, msg: any) {
-              let json: any = await getJSON(makeUrl('customers', msg.q), makeConfig())
-              let customers = json
-              let list = customers.map((data: any) => entize(data))
+              let list = await this.shared.sdk.sites()
+              list = list.map((data: any) => entize(data))
               return list
             },
           }
         }
       },
+
       brand: {
         cmd: {
           list: {
