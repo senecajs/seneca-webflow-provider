@@ -64,11 +64,24 @@ Console.log('UPDATED BOARD', board)
 
 ```
 
+
+
 ## Install
 
 ```sh
 $ npm install @seneca/tangocard-provider @seneca/env
 ```
+
+
+## How to get access
+
+
+* Open a given site
+* Open settings / integration
+* ...
+
+
+
 
 
 

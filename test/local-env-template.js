@@ -1,3 +1,3 @@
 module.exports = {
-  WEBFLOW_APIKEY: '<APIKEY>',
+  WEBFLOW_TOKEN: '<TOKEN>',
 }
