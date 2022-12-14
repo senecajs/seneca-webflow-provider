@@ -1,20 +1,24 @@
 {
-  "name": "@seneca/tangocard-provider",
+  "name": "@seneca/webflow-provider",
   "version": "0.1.2",
-  "main": "dist/tangocard-provider.js",
+  "main": "dist/webflow-provider.js",
   "type": "commonjs",
-  "types": "dist/tangocard-provider.d.ts",
-  "description": "Seneca entity provider for the Tangocard API.",
-  "homepage": "https://github.com/senecajs/seneca-tangocard-provider",
+  "types": "dist/webflow-provider.d.ts",
+  "description": "Seneca entity provider for the Webflow CMS API.",
+  "homepage": "https://github.com/senecajs/seneca-webflow-provider",
   "keywords": [
     "seneca",
-    "tangocard",
-    "tangocard-provider"
+    "webflow",
+    "webflow-provider"
   ],
   "author": "Richard Rodger - richardrodger.com",
+  "contributors": [
+    "Ríona Stokes https://github.com/rionastokes",
+    "Richard Rodger - richardrodger.com"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://tangocard.com/senecajs/seneca-tangocard-provider.git"
+    "url": "git://webflow.com/senecajs/seneca-webflow-provider.git"
   },
   "scripts": {
     "test": "jest --coverage",
