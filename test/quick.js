@@ -1,11 +1,11 @@
 const Webflow = require('webflow-api')
-import { WEBFLOW_TOKEN } from './local-env-template'
+const token = require('./local-env-template').WEBFLOW_TOKEN
 
 run()
 
 async function run() {
   // initialize the client with the access token
-  const webflow = new Webflow({ WEBFLOW_TOKEN })
+  const webflow = new Webflow({ token })
 
   console.log('WEBFLOW', webflow)
 

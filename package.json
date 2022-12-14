@@ -45,7 +45,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "webflow-api": "^1.0.3"
+    "webflow-api": "^1.2.2"
   },
   "peerDependencies": {
     "@seneca/env": ">=0.2",
