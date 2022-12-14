@@ -1,20 +1,15 @@
-
-
-
-const Webflow = require("webflow-api");
+const Webflow = require('webflow-api')
+import { WEBFLOW_TOKEN } from './local-env-template'
 
 run()
 
 async function run() {
-
-  const token = '2dccc032ba7e8f273d59453da0142230028f26c957e07af943dedf050d74455c'
-  
   // initialize the client with the access token
-  const webflow = new Webflow({ token });
+  const webflow = new Webflow({ WEBFLOW_TOKEN })
 
   console.log('WEBFLOW', webflow)
 
-  const sites = await webflow.sites();
+  const sites = await webflow.sites()
 
   console.log('SITES', sites)
 
@@ -27,9 +22,4 @@ async function run() {
   //     "User-Agent": "My Webflow App / 1.0"
   //   }
   // });
-
 }
-
-
-
-
