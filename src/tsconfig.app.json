@@ -10,7 +10,8 @@
     "rootDir": "src",
     "strict": true,
     "target": "ES2019",
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": ["../node_modules/@types"]
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["test", "dist", "node_modules"]
 }

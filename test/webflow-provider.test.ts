@@ -1,74 +1,61 @@
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 
-import * as Fs from 'fs'
+import Webflow from 'webflow-api'
 
-const Seneca = require('seneca')
-const SenecaMsgTest = require('seneca-msg-test')
-
-import WebflowProvider from '../src/webflow-provider'
-import WebflowProviderDoc from '../src/WebflowProvider-doc'
-
-const BasicMessages = require('./basic.messages.js')
-
-// Only run some tests locally (not on Github Actions).
-let Config = undefined
-if (Fs.existsSync(__dirname + '/local-config.js')) {
-  Config = require('./local-config')
-}
+const token = require('./local-env-template').WEBFLOW_TOKEN
+const webflow = new Webflow({ token })
 
 describe('webflow-provider', () => {
-  test('happy', async () => {
-    expect(WebflowProvider).toBeDefined()
-    expect(WebflowProviderDoc).toBeDefined()
+  test('access', async () => {
+    expect(webflow).toBeDefined()
+  })
 
-    const seneca = await makeSeneca()
+  test('site', async () => {
+    expect(webflow).toBeDefined()
 
-    expect(
-      await seneca.post('sys:provider,provider:webflow,get:info')
-    ).toMatchObject({
-      ok: true,
-      name: 'webflow',
+    const [site] = await webflow.sites()
+    expect(site).toMatchObject({
+      _id: '62893b90ef00fa71089d14c6',
+      name: 'voxgig.com',
     })
   })
 
-  test('messages', async () => {
-    const seneca = await makeSeneca()
-    await SenecaMsgTest(seneca, BasicMessages)()
+  test('collections', async () => {
+    expect(webflow).toBeDefined()
+    // Cannot redeclare site
+    // const [site] = await webflow.sites()
+    // Without redeclaration, site is unknown
+    // expect(site).toBeDefined()
+
+    const [site4col] = await webflow.sites()
+    expect(site4col).toBeDefined()
+
+    const collections = await site4col.collections()
+    expect(collections).toMatchObject([
+      { _id: '62ac4be6f216e4e2796c3a8d', name: 'Podcast Episodes' },
+      { _id: '63638ffb30032c83f39f2076', name: 'Podcast Categories' },
+    ])
   })
 
-  // TODO: make this work
-  test('site-basic', async () => {
-    if (!Config) return
-    const seneca = await makeSeneca()
+  test('items', async () => {
+    expect(webflow).toBeDefined()
+    // Same redeclaration issues
 
-    // does this:   const sites = await webflow.sites();
-    const list = await seneca.entity('provider/webflow/site').list$()
-    expect(list.length > 0).toBeTruthy()
+    const [site4col] = await webflow.sites()
+    expect(site4col).toBeDefined()
+    const col4items = await site4col.collections()
+    expect(col4items).toBeDefined()
+
+    // Pod Episodes
+    const epitems = await col4items[0].items()
+    const sampleEp = epitems[Math.floor(Math.random() * epitems.length)]
+    expect(sampleEp).toHaveProperty('episode-number')
+    expect(sampleEp).toHaveProperty('show-notes')
+    expect(sampleEp).toHaveProperty('uuid')
+
+    // Pod Categories
+    const catitems = await col4items[1].items()
+    const sampleCat = catitems[Math.floor(Math.random() * catitems.length)]
+    expect(sampleCat).toHaveProperty('description')
   })
 })
-
-async function makeSeneca() {
-  const seneca = Seneca({ legacy: false })
-    .test()
-    .use('promisify')
-    .use('entity')
-    .use('env', {
-      // debug: true,
-      file: [__dirname + '/local-env.js;?'],
-      var: {
-        $WEBFLOW_TOKEN: String,
-      },
-    })
-    .use('provider', {
-      provider: {
-        tangocard: {
-          keys: {
-            token: { value: '$WEBFLOW_TOKEN' },
-          },
-        },
-      },
-    })
-    .use(TangocardProvider)
-
-  return seneca.ready()
-}
