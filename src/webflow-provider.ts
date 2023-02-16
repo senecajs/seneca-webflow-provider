@@ -1,8 +1,10 @@
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 
+import { threadId } from 'worker_threads'
+
 const Pkg = require('../package.json')
 
-const Webflow = require('Webflow')
+const Webflow = require('webflow-api')
 
 type WebflowProviderOptions = {}
 
@@ -33,7 +35,11 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
       site: {
         cmd: {
           list: {
-            action: async function (this: any, entsize: any, msg: any) {},
+            action: async function (this: any, entsize: any, msg: any) {
+              let res = await this.shared.sdk.sites()
+              let list = res.map((data: any) => entsize(data))
+              return list
+            },
           },
 
           load: {
@@ -173,51 +179,22 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
   })
 
   seneca.prepare(async function (this: any) {
-    let res = await this.post('sys:provider,get:keymap,provider:webflow')
+    let token = await this.post(
+      'sys:provider,get:keymap,provider:webflow,key:token'
+    )
 
-    if (!res.ok) {
-      throw this.fail('keymap')
-    }
-
-    let src = res.keymap.name.value + ':' + res.keymap.key.value
-    let auth = Buffer.from(src).toString('base64')
-
-    this.shared.headers = {
-      Authorization: 'Basic ' + auth,
-    }
-
-    this.shared.primary = {
-      customerIdentifier: res.keymap.cust.value,
-      accountIdentifier: res.keymap.acc.value,
-    }
+    this.shared.sdk = new Webflow(token.value)
   })
 
   return {
     exports: {
-      makeUrl,
-      makeConfig,
-      getJSON,
-      postJSON,
+      sdk: () => this.shared.sdk,
     },
   }
 }
 
 // Default options.
 const defaults: WebflowProviderOptions = {
-  // NOTE: include trailing /
-  url: 'https://integration-api.webflow.com/raas/v2/',
-
-  // Use global fetch by default - if exists
-  fetch: 'undefined' === typeof fetch ? undefined : fetch,
-
-  entity: {
-    order: {
-      save: {
-        // Default fields
-      },
-    },
-  },
-
   // TODO: Enable debug logging
   debug: false,
 }
