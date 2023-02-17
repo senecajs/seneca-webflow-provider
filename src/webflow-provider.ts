@@ -41,11 +41,21 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
           },
 
           load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
+            action: async function (this: any, entize: any, msg: any) {
+              let q = msg.q || {}
+              let id = q.id
 
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
+              try {
+                let res = await this.shared.sdk.site({ siteId: id })
+                return entize(res)
+              } catch (e: any) {
+                if (e.message.includes('invalid id')) {
+                  return null
+                } else {
+                  throw e
+                }
+              }
+            },
           },
         },
       },

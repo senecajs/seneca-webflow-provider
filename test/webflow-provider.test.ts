@@ -43,6 +43,11 @@ describe('webflow-provider', () => {
     // does this:   const sites = await webflow.sites();
     const list = await seneca.entity('provider/webflow/site').list$()
     expect(list.length > 0).toBeTruthy()
+
+    const site0 = await seneca
+      .entity('provider/webflow/site')
+      .load$(Config.site0.id)
+    expect(site0.name).toContain(Config.site0.name)
   })
 })
 
