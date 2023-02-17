@@ -42,8 +42,7 @@ describe('webflow-provider', () => {
 
     // does this:   const sites = await webflow.sites();
     const list = await seneca.entity('provider/webflow/site').list$()
-    // expect(list.length > 0).toBeTruthy()
-    expect(list).toBeUndefined()
+    expect(list.length > 0).toBeTruthy()
   })
 })
 

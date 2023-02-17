@@ -53,11 +53,13 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
   })
 
   seneca.prepare(async function (this: any) {
-    let accesstoken = await this.post(
+    let res = await this.post(
       'sys:provider,get:keymap,provider:webflow,key:accesstoken'
     )
 
-    this.shared.sdk = new Webflow(accesstoken.value)
+    let token = res.keymap.accesstoken.value
+
+    this.shared.sdk = new Webflow({ token })
   })
 
   return {

@@ -5,8 +5,9 @@ run()
 
 async function run() {
   // initialize the client with the access token
+  console.log(token)
+  console.log({ token })
   const webflow = new Webflow({ token })
-  const webflow2 = new Webflow(token)
   console.log(token)
   console.log({ token })
 
