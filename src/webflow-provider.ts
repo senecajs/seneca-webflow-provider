@@ -1,7 +1,5 @@
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 
-import { threadId } from 'worker_threads'
-
 const Pkg = require('../package.json')
 
 const Webflow = require('webflow-api')
@@ -51,139 +49,15 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
           },
         },
       },
-
-      webhook: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          remove: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      collection: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      item: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          remove: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      product_SKU: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      order: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      inventory: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      settings: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
-
-      user: {
-        cmd: {
-          list: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          load: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          save: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-
-          remove: {
-            action: async function (this: any, entsize: any, msg: any) {},
-          },
-        },
-      },
     },
   })
 
   seneca.prepare(async function (this: any) {
-    let token = await this.post(
-      'sys:provider,get:keymap,provider:webflow,key:token'
+    let accesstoken = await this.post(
+      'sys:provider,get:keymap,provider:webflow,key:accesstoken'
     )
 
-    this.shared.sdk = new Webflow(token.value)
+    this.shared.sdk = new Webflow(accesstoken.value)
   })
 
   return {
