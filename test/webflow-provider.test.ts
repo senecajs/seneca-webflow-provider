@@ -57,7 +57,7 @@ describe('webflow-provider', () => {
     const list = await seneca
       .entity('provider/webflow/collection')
       .list$(Config.site0.id)
-    expect(Object.keys(list).length - 1 > 0).toBeTruthy()
+    expect(list.length > 0).toBeTruthy()
 
     const collection0 = await seneca
       .entity('provider/webflow/collection')
@@ -68,6 +68,16 @@ describe('webflow-provider', () => {
     expect(collection0.name).toContain(
       Config.site0.collections.collection0.name
     )
+  })
+
+  test('item-basic', async () => {
+    if (!Config) return
+    const seneca = await makeSeneca()
+
+    const list = await seneca
+      .entity('provider/webflow/item')
+      .list$(Config.site0.collections.collection0.id)
+    expect(list.length > 0).toBeTruthy()
   })
 })
 

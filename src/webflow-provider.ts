@@ -70,7 +70,7 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
               try {
                 let preres = await this.shared.sdk.site({ siteId: id })
                 let res = await preres.collections()
-                return entize(res)
+                return res
               } catch (e: any) {
                 if (e.message.includes('invalid id')) {
                   return null
@@ -101,6 +101,35 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
                 }
               }
             },
+          },
+        },
+      },
+
+      item: {
+        cmd: {
+          list: {
+            action: async function (this: any, entsize: any, msg: any) {
+              let q = msg.q || {}
+              let id = q.id
+
+              try {
+                let preres = await this.shared.sdk.collection({
+                  collectionId: id,
+                })
+                let res = await preres.items()
+                return res
+              } catch (e: any) {
+                if (e.message.includes('invalid id')) {
+                  return null
+                } else {
+                  throw e
+                }
+              }
+            },
+          },
+
+          load: {
+            action: async function (this: any, entsize: any, msg: any) {},
           },
         },
       },
