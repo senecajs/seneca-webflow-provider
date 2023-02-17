@@ -78,6 +78,14 @@ describe('webflow-provider', () => {
       .entity('provider/webflow/item')
       .list$(Config.site0.collections.collection0.id)
     expect(list.length > 0).toBeTruthy()
+
+    const item0 = await seneca.entity('provider/webflow/item').load$({
+      collectionId: Config.site0.collections.collection0.id,
+      itemId: Config.site0.collections.collection0.items.item0.id,
+    })
+    expect(item0.name).toContain(
+      Config.site0.collections.collection0.items.item0.name
+    )
   })
 })
 

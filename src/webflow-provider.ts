@@ -129,7 +129,25 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
           },
 
           load: {
-            action: async function (this: any, entsize: any, msg: any) {},
+            action: async function (this: any, entsize: any, msg: any) {
+              let q = msg.q || {}
+              let collectionId = q.collectionId
+              let itemId = q.itemId
+
+              try {
+                let preres = await this.shared.sdk.collection({
+                  collectionId: collectionId,
+                })
+                let res = await preres.item({ itemId: itemId })
+                return entsize(res)
+              } catch (e: any) {
+                if (e.message.includes('invalid id')) {
+                  return null
+                } else {
+                  throw e
+                }
+              }
+            },
           },
         },
       },
