@@ -59,6 +59,51 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
           },
         },
       },
+
+      collection: {
+        cmd: {
+          list: {
+            action: async function (this: any, entize: any, msg: any) {
+              let q = msg.q || {}
+              let id = q.id
+
+              try {
+                let preres = await this.shared.sdk.site({ siteId: id })
+                let res = await preres.collections()
+                return entize(res)
+              } catch (e: any) {
+                if (e.message.includes('invalid id')) {
+                  return null
+                } else {
+                  throw e
+                }
+              }
+            },
+          },
+
+          load: {
+            action: async function (this: any, entize: any, msg: any) {
+              let q = msg.q || {}
+              let siteId = q.siteId
+              let collectionId = q.collectionId
+
+              try {
+                let preres = await this.shared.sdk.site({ siteId: siteId })
+                let res = await preres.collection({
+                  collectionId: collectionId,
+                })
+                return entize(res)
+              } catch (e: any) {
+                if (e.message.includes('invalid id')) {
+                  return null
+                } else {
+                  throw e
+                }
+              }
+            },
+          },
+        },
+      },
     },
   })
 
