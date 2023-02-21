@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://webflow.com/senecajs/seneca-webflow-provider.git"
+    "url": "git://github.com/senecajs/seneca-webflow-provider.git"
   },
   "scripts": {
     "test": "jest --coverage",
