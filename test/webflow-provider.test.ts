@@ -4,6 +4,7 @@ import * as Fs from 'fs'
 
 const Seneca = require('seneca')
 const SenecaMsgTest = require('seneca-msg-test')
+const { Maintain } = require('@seneca/maintain')
 
 import WebflowProvider from '../src/webflow-provider'
 import WebflowProviderDoc from '../src/WebflowProvider-doc'
@@ -86,6 +87,10 @@ describe('webflow-provider', () => {
     expect(item0.name).toContain(
       Config.site0.collections.collection0.items.item0.name
     )
+  })
+
+  test('maintain', async () => {
+    await Maintain()
   })
 })
 

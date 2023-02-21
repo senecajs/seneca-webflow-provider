@@ -70,3 +70,15 @@ $ npm install @seneca/webflow-provider @seneca/env
 ## Action Patterns
 
 ## Action Descriptions
+
+## More Examples
+
+## Motivation
+
+## Support
+
+## API
+
+## Contributing
+
+## Background
