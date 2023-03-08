@@ -1,20 +1,25 @@
 {
-  "name": "@seneca/tangocard-provider",
+  "name": "@seneca/webflow-provider",
   "version": "0.1.2",
-  "main": "dist/tangocard-provider.js",
+  "main": "dist/webflow-provider.js",
   "type": "commonjs",
-  "types": "dist/tangocard-provider.d.ts",
-  "description": "Seneca entity provider for the Tangocard API.",
-  "homepage": "https://github.com/senecajs/seneca-tangocard-provider",
+  "types": "dist/webflow-provider.d.ts",
+  "description": "Seneca entity provider for the Webflow CMS API.",
+  "homepage": "https://github.com/senecajs/seneca-webflow-provider",
   "keywords": [
     "seneca",
-    "tangocard",
-    "tangocard-provider"
+    "webflow",
+    "webflow-provider",
+    "cms"
   ],
   "author": "Richard Rodger - richardrodger.com",
+  "contributors": [
+    "Ríona Stokes https://github.com/rionastokes",
+    "Richard Rodger - richardrodger.com"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://tangocard.com/senecajs/seneca-tangocard-provider.git"
+    "url": "git://github.com/senecajs/seneca-webflow-provider.git"
   },
   "scripts": {
     "test": "jest --coverage",
@@ -40,7 +45,8 @@
     "node": ">=14"
   },
   "dependencies": {
-    "webflow-api": "^1.0.3"
+    "@seneca/maintain": "^0.0.27",
+    "webflow-api": "^1.2.2"
   },
   "peerDependencies": {
     "@seneca/env": ">=0.2",
@@ -51,14 +57,14 @@
   },
   "devDependencies": {
     "@seneca/doc": "^4.1.0",
-    "@types/jest": "^29.0.1",
-    "@types/node": "^18.7.16",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.11.18",
     "esbuild": "^0.15.7",
     "esbuild-jest": "^0.5.0",
     "jest": "^29.0.3",
     "node-fetch": "^2",
     "seneca": ">=3",
     "seneca-msg-test": "^3.4.0",
-    "typescript": "^4.8.3"
+    "typescript": "^4.9.4"
   }
 }
