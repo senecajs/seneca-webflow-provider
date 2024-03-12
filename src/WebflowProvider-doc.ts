@@ -2,11 +2,9 @@
 
 
 const messages = {
-
   get_info: {
-    desc: 'Get information about the Tangocard SDK.',
+    desc: 'Get information about the Webflow SDK.',
   },
-
 }
 
 
@@ -16,11 +14,14 @@ const sections = {
   }
 }
 
-export default {
+const docs = {
   sections,
   messages
 }
 
-if ('undefined' !== typeof (module)) {
+export default docs
+
+
+if ('undefined' !== typeof module) {
   module.exports = docs
 }

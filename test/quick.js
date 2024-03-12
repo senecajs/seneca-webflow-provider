@@ -1,35 +1,80 @@
+const Seneca = require('seneca')
 
+const { WebflowClient } = require('webflow-api')
+const accessToken = require('./local-env').WEBFLOW_ACCESSTOKEN
 
+// runDirect()
+runSeneca()
 
-const Webflow = require("webflow-api");
-
-run()
-
-async function run() {
-
-  const token = '2dccc032ba7e8f273d59453da0142230028f26c957e07af943dedf050d74455c'
-  
+async function runDirect() {
   // initialize the client with the access token
-  const webflow = new Webflow({ token });
+  const webflow = new WebflowClient({ accessToken })
 
-  console.log('WEBFLOW', webflow)
+  // const col = await webflow.collections.get('62ac4be6f216e4e2796c3a8d')
+  // console.log(col)
 
-  const sites = await webflow.sites();
-
-  console.log('SITES', sites)
-
-  // // fully loaded
-  // const webflow = new Webflow({
-  //   token: "[ACCESS TOKEN]",
-  //   version: "1.0.0",
-  //   mode: "cors",
-  //   headers: {
-  //     "User-Agent": "My Webflow App / 1.0"
-  //   }
-  // });
+  const items = await webflow.collections.items.listItems('62ac4be6f216e4e2796c3a8d',{
+    // offset: 100
+  })
+  console.log(items)
+  // const items = await col.listItems()
+  // console.log(items)
 
 }
 
 
+async function runSeneca() {
+  const seneca = await Seneca({legacy:false})
+        .test()
+        .use('promisify')
+        .use('entity')
+        .use('env', {
+          file: [__dirname + '/local-env.js;?'],
+          var: {
+            $WEBFLOW_ACCESSTOKEN: String,
+          },
+        })
+        .use('provider',{
+          provider: {
+            webflow: {
+              keys: {
+                accesstoken: { value: '$WEBFLOW_ACCESSTOKEN' },
+              },
+            },
+          },
+        })
+        .use('..') // webflow-provider
+        .ready()
 
+  const cols = await seneca.entity('provider/webflow/collection').list$({
+    site_id: '62893b90ef00fa71089d14c6'
+  })
+  console.log('cols', cols)
 
+  const col0 = await seneca.entity('provider/webflow/collection')
+        .load$('62ac4be6f216e4e2796c3a8d')
+  console.log('col0', col0)
+
+  const sites = await seneca.entity('provider/webflow/site').list$()
+  console.log('sites', sites)
+
+  const site0 = await seneca.entity('provider/webflow/site').load$(sites[0].id)
+  console.log('site0', site0)
+
+  const site1 = await seneca.entity('provider/webflow/site').load$('72893b90ef00fa71089d14c6')
+  console.log('site1', site1)
+  
+  const items = await seneca.entity('provider/webflow/colitem').list$({
+     collection_id: '62ac4be6f216e4e2796c3a8d'
+  })
+  
+  console.log(items.length)
+  // console.log(items[0])
+
+  const item = await seneca.entity('provider/webflow/colitem').load$({
+    collection_id:col0.id,
+    item_id: items[0].id,
+  })
+
+  console.log(item)
+}
