@@ -1,7 +1,7 @@
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 
 
-const docs = {
+const messages = {
 
   get_info: {
     desc: 'Get information about the Tangocard SDK.',
@@ -9,7 +9,17 @@ const docs = {
 
 }
 
-export default docs
+
+const sections = {
+  intro: {
+    path: '../provider/doc/intro.md'
+  }
+}
+
+export default {
+  sections,
+  messages
+}
 
 if ('undefined' !== typeof (module)) {
   module.exports = docs
