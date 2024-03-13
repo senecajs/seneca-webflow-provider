@@ -1,6 +1,6 @@
 {
   "name": "@seneca/webflow-provider",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "main": "dist/webflow-provider.js",
   "type": "commonjs",
   "types": "dist/webflow-provider.d.ts",
