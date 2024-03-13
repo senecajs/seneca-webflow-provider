@@ -120,7 +120,7 @@ function WebflowProvider(options) {
             let q = msg.q || {};
             let collection_id = q.collection_id;
             let item_id = q.item_id;
-            const args = [collection_id, item_id, {}];
+            const args = [collection_id, item_id, { skipValidation: true }];
             try {
                 let res = await this.shared.sdk.collections.items.getItem(...args);
                 return entize(res);

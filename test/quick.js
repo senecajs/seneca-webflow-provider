@@ -49,32 +49,34 @@ async function runSeneca() {
   const cols = await seneca.entity('provider/webflow/collection').list$({
     site_id: '62893b90ef00fa71089d14c6'
   })
-  console.log('cols', cols)
+  // console.log('cols', cols)
 
   const col0 = await seneca.entity('provider/webflow/collection')
         .load$('62ac4be6f216e4e2796c3a8d')
-  console.log('col0', col0)
+  // console.log('col0', col0)
 
   const sites = await seneca.entity('provider/webflow/site').list$()
-  console.log('sites', sites)
+  // console.log('sites', sites)
 
   const site0 = await seneca.entity('provider/webflow/site').load$(sites[0].id)
-  console.log('site0', site0)
+  // console.log('site0', site0)
 
   const site1 = await seneca.entity('provider/webflow/site').load$('72893b90ef00fa71089d14c6')
-  console.log('site1', site1)
+  // console.log('site1', site1)
   
   const items = await seneca.entity('provider/webflow/colitem').list$({
      collection_id: '62ac4be6f216e4e2796c3a8d'
   })
   
-  console.log(items.length)
+  // console.log(items.length)
   // console.log(items[0])
 
-  const item = await seneca.entity('provider/webflow/colitem').load$({
-    collection_id:col0.id,
+  let q = {
+    collection_id: col0.id,
     item_id: items[0].id,
-  })
+  }
+  const item = await seneca.entity('provider/webflow/colitem').load$(q)
 
   console.log(item)
+  console.log(q)
 }

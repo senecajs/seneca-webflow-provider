@@ -37,6 +37,7 @@ describe('webflow-provider', () => {
     await SenecaMsgTest(seneca, BasicMessages)()
   })
 
+  
   test('site-basic', async () => {
     if (!Config) return
     const seneca = await makeSeneca()
@@ -47,48 +48,57 @@ describe('webflow-provider', () => {
 
     const site0 = await seneca
       .entity('provider/webflow/site')
-      .load$(Config.site0.id)
-    expect(site0.name).toContain(Config.site0.name)
+          .load$(Config.site0.id)
+    expect(site0.shortName).toContain(Config.site0.shortName)
   })
 
+  
   test('collection-basic', async () => {
     if (!Config) return
     const seneca = await makeSeneca()
 
     const list = await seneca
       .entity('provider/webflow/collection')
-      .list$(Config.site0.id)
+          .list$({site_id:Config.site0.id})
     expect(list.length > 0).toBeTruthy()
 
+    
     const collection0 = await seneca
       .entity('provider/webflow/collection')
-      .load$({
-        siteId: Config.site0.id,
-        collectionId: Config.site0.collections.collection0.id,
-      })
-    expect(collection0.name).toContain(
-      Config.site0.collections.collection0.name
+          .load$(Config.site0.collections.collection0.id)
+    // console.log(collection0)
+    
+    expect(collection0.slug).toContain(
+      Config.site0.collections.collection0.slug
     )
   })
 
+  
   test('item-basic', async () => {
     if (!Config) return
     const seneca = await makeSeneca()
 
     const list = await seneca
-      .entity('provider/webflow/item')
-      .list$(Config.site0.collections.collection0.id)
+      .entity('provider/webflow/colitem')
+          .list$({collection_id: Config.site0.collections.collection0.id})
     expect(list.length > 0).toBeTruthy()
+    
 
-    const item0 = await seneca.entity('provider/webflow/item').load$({
-      collectionId: Config.site0.collections.collection0.id,
-      itemId: Config.site0.collections.collection0.items.item0.id,
-    })
-    expect(item0.name).toContain(
-      Config.site0.collections.collection0.items.item0.name
+    let q = {
+      collection_id: Config.site0.collections.collection0.id,
+      item_id: Config.site0.collections.collection0.items.item0.id,
+    }
+    
+    const item0 = await seneca.entity('provider/webflow/colitem').load$(q)
+    // console.log(item0)
+    // console.log(q)
+    
+    expect(item0.id).toContain(
+      Config.site0.collections.collection0.items.item0.id
     )
   })
 
+  
   test('maintain', async () => {
     await Maintain()
   })
