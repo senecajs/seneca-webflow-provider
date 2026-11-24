@@ -206,6 +206,10 @@ function WebflowProvider(this: any, options: WebflowProviderOptions) {
       'sys:provider,get:keymap,provider:webflow,key:accesstoken'
     )
 
+    if (!res.ok) {
+      throw this.fail('keymap')
+    }
+
     let accessToken = res.keymap.accesstoken.value
 
     this.shared.sdk = new WebflowClient({ accessToken })

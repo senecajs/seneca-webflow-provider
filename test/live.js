@@ -2,16 +2,15 @@ const Seneca = require('seneca')
 
 Seneca({ legacy: false })
   .test()
-  .use('promisify')
-  .use('entity')
-  .use('env', {
+  .use('@seneca/entity')
+  .use('@seneca/env', {
     // debug: true,
     file: [__dirname + '/local-env.js;?'],
     var: {
       $WEBFLOW_ACCESSTOKEN: String,
     },
   })
-  .use('provider', {
+  .use('@seneca/provider', {
     provider: {
       webflow: {
         keys: {

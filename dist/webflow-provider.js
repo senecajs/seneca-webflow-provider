@@ -162,6 +162,9 @@ function WebflowProvider(options) {
     });
     seneca.prepare(async function () {
         let res = await this.post('sys:provider,get:keymap,provider:webflow,key:accesstoken');
+        if (!res.ok) {
+            throw this.fail('keymap');
+        }
         let accessToken = res.keymap.accesstoken.value;
         this.shared.sdk = new WebflowClient({ accessToken });
     });

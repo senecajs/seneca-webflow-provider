@@ -8,46 +8,51 @@
 
 ## Install
 
+Requires Seneca 4 and Node.js 24 or later.
+
 ```sh
-$ npm install @seneca/webflow-provider @seneca/env
+$ npm install seneca@^4 @seneca/entity @seneca/provider @seneca/env @seneca/webflow-provider
 ```
 
 ## Quick Example
 
-<!-- ```js
+```js
 // Setup - get the key value (<SECRET>) separately from a vault or
 // environment variable.
-Seneca()
-  // Get API keys using the seneca-env plugin
-  .use('env', {
+const seneca = Seneca()
+  .use('@seneca/entity')
+  // Get API keys using the @seneca/env plugin
+  .use('@seneca/env', {
     var: {
-      $TANGOCARD_APIKEY: String,
-      $TANGOCARD_USERTOKEN: String,
+      $WEBFLOW_ACCESSTOKEN: String,
     },
   })
-  .use('provider', {
+  .use('@seneca/provider', {
     provider: {
-      tangocard: {
+      webflow: {
         keys: {
-          apikey: { value: '$TANGOCARD_APIKEY' },
-          usertoken: { value: '$TANGOCARD_USERTOKEN' },
+          accesstoken: { value: '$WEBFLOW_ACCESSTOKEN' },
         },
       },
     },
   })
-  .use('tangocard-provider')
+  .use('@seneca/webflow-provider')
 
-let board = await seneca
-  .entity('provider/tangocard/board')
-  .load$('<tangocard-board-id>')
+await seneca.ready()
 
-Console.log('BOARD', board)
+const sites = await seneca.entity('provider/webflow/site').list$()
 
-board.desc = 'New description'
-board = await board.save$()
+const collections = await seneca
+  .entity('provider/webflow/collection')
+  .list$({ site_id: '<webflow-site-id>' })
 
-Console.log('UPDATED BOARD', board)
-``` -->
+const item = await seneca.entity('provider/webflow/colitem').load$({
+  collection_id: '<webflow-collection-id>',
+  item_id: '<webflow-item-id>',
+})
+
+console.log('ITEM', item.fieldData.name)
+```
 
 ## More Examples
 
